@@ -64,7 +64,7 @@ function App() {
     if (searchButton) {
       searchButton.addEventListener("click", openSearch);
     }
-    
+
     // Handle clicks outside the popup to close it
     const handleWindowClick = (event) => {
       const popup = document.getElementById("mapKeyPopup");
@@ -74,6 +74,23 @@ function App() {
     };
     window.addEventListener('click', handleWindowClick);
 
+    // Handle report form submission
+    const reportForm = document.getElementById('reportForm');
+    if (reportForm) {
+      reportForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const reportTitle = document.getElementById('reportTitle').value;
+        const reportDescription = document.getElementById('reportDescription').value;
+
+        console.log('Report Title:', reportTitle);
+        console.log('Report Description:', reportDescription);
+
+        alert('Report submitted successfully!');
+        closePopup('Report');
+        reportForm.reset();
+      });
+    }
+    
   }, []);
   return (
     <>
