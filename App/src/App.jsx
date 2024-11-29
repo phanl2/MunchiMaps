@@ -90,8 +90,13 @@ function App() {
         reportForm.reset();
       });
     }
-    
+
+    // Cleanup event listeners when component unmounts
+    return () => {
+      window.removeEventListener('click', handleWindowClick);
+    };
   }, []);
+  
   return (
     <>
       <div className="logo-title">
