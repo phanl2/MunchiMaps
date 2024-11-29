@@ -101,6 +101,11 @@ function App() {
     document.getElementById('popup-' + id.toLowerCase()).style.display = 'none';
   };
 
+  const openPopup = (id) => {
+    closeAllPopups();
+    document.getElementById('popup-' + id.toLowerCase()).style.display = 'block';
+  };
+
   return (
     <>
       <div className="logo-title">
