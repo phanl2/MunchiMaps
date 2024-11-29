@@ -77,6 +77,7 @@ function App() {
     // Handle report form submission
     const reportForm = document.getElementById('reportForm');
     if (reportForm) {
+      // Inside useEffect hook where the report form is submitted:
       reportForm.addEventListener('submit', function (event) {
         event.preventDefault();
         const reportTitle = document.getElementById('reportTitle').value;
@@ -86,7 +87,7 @@ function App() {
         console.log('Report Description:', reportDescription);
 
         alert('Report submitted successfully!');
-        closePopup('Report');
+        closeReportPopup(); // Use the new function to close the report popup
         reportForm.reset();
       });
     }
@@ -97,14 +98,20 @@ function App() {
     };
   }, []);
 
-  const closePopup = (id) => {
-    document.getElementById('popup-' + id.toLowerCase()).style.display = 'none';
+  // Function to close a specific popup by id
+  const closeReportPopup = () => {
+    // Close the 'Report' popup specifically
+    document.getElementById('popup-report').style.display = 'none';
   };
+  
 
+  // Function to open a specific popup by id
   const openPopup = (id) => {
-    closeAllPopups();
+    closeAllPopups(); // Close any open popups before opening the new one
+    // Open the specified popup by setting its display style to 'block'
     document.getElementById('popup-' + id.toLowerCase()).style.display = 'block';
   };
+
 
   return (
     <>
