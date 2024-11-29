@@ -57,12 +57,24 @@ function App() {
     }
   };
 
+  // Side effect to handle DOM content loaded behavior and events
   useEffect(() => {
+    // Open search on button click
     const searchButton = document.querySelector(".button[onclick='openSearch()']");
     if (searchButton) {
       searchButton.addEventListener("click", openSearch);
     }
-  });
+    
+    // Handle clicks outside the popup to close it
+    const handleWindowClick = (event) => {
+      const popup = document.getElementById("mapKeyPopup");
+      if (event.target === popup) {
+        popup.style.display = "none";
+      }
+    };
+    window.addEventListener('click', handleWindowClick);
+
+  }, []);
   return (
     <>
       <div className="logo-title">
