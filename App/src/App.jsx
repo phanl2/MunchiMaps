@@ -96,7 +96,11 @@ function App() {
       window.removeEventListener('click', handleWindowClick);
     };
   }, []);
-  
+
+  const closePopup = (id) => {
+    document.getElementById('popup-' + id.toLowerCase()).style.display = 'none';
+  };
+
   return (
     <>
       <div className="logo-title">
