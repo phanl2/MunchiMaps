@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './styles/MunchiMaps_stylesheet.css';
 import './styles/dark.css';
 import './styles/Location_Style_Sheet.css';
@@ -153,7 +153,7 @@ function App() {
             className="button-img"
           />
         </button>
-        <button className="button" onClick={() => console.log('Open Report')}>
+        <button className="button" onClick={() => openPopup('Report')}>
           <img
             src="https://raw.githubusercontent.com/mike-cautela/MunchiMaps/main/Website/MunchiMaps%20Assets/MenuIcons/alert-triangle-grey.svg"
             alt="Report"
