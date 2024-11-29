@@ -57,6 +57,12 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    const searchButton = document.querySelector(".button[onclick='openSearch()']");
+    if (searchButton) {
+      searchButton.addEventListener("click", openSearch);
+    }
+  });
   return (
     <>
       <div className="logo-title">
