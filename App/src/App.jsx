@@ -7,7 +7,6 @@ import './styles/loading_animation_stylesheet.css';
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const searchPopupRef = useRef(null);
-  const reportPopupRef = useRef(null); // Ref for the report popup
 
   const buildings = [
     { name: 'Folsom Library', drink: true, food: true },
@@ -41,12 +40,10 @@ function App() {
   };
 
   const closeAllPopups = () => {
+    // Close all popups (like report and search popups)
     if (searchPopupRef.current) {
       searchPopupRef.current.style.display = 'none';
       searchPopupRef.current.classList.remove('show');
-    }
-    if (reportPopupRef.current) {
-      reportPopupRef.current.style.display = 'none';
     }
   };
 
@@ -62,14 +59,25 @@ function App() {
 
   // Side effect to handle DOM content loaded behavior and events
   useEffect(() => {
+    // Open search on button click
     const searchButton = document.querySelector(".button[onclick='openSearch()']");
     if (searchButton) {
       searchButton.addEventListener("click", openSearch);
     }
 
+    // Handle clicks outside the popup to close it
+    const handleWindowClick = (event) => {
+      const popup = document.getElementById("mapKeyPopup");
+      if (event.target === popup) {
+        popup.style.display = "none";
+      }
+    };
+    window.addEventListener('click', handleWindowClick);
+
     // Handle report form submission
     const reportForm = document.getElementById('reportForm');
     if (reportForm) {
+      // Inside useEffect hook where the report form is submitted:
       reportForm.addEventListener('submit', function (event) {
         event.preventDefault();
         const reportTitle = document.getElementById('reportTitle').value;
@@ -79,7 +87,7 @@ function App() {
         console.log('Report Description:', reportDescription);
 
         alert('Report submitted successfully!');
-        closeAllPopups(); // Close all popups, including the report one
+        closeReportPopup(); // Use the new function to close the report popup
         reportForm.reset();
       });
     }
@@ -90,17 +98,16 @@ function App() {
     };
   }, []);
 
-  const closePopup = () => {
-    if (reportPopupRef.current) {
-      reportPopupRef.current.style.display = 'none';
-    }
+  // Function to close a specific popup by id
+  const closeReportPopup = () => {
+    // Close the 'Report' popup specifically
+    document.getElementById('popup-report').style.display = 'none';
   };
-
+  
+  // Function to open a specific popup by id
   const openPopup = (id) => {
-    closeAllPopups();
-    if (id === 'Report' && reportPopupRef.current) {
-      reportPopupRef.current.style.display = 'block';
-    }
+    closeAllPopups(); // Close any open popups before opening the new one
+    document.getElementById('popup-' + id.toLowerCase()).style.display = 'block';
   };
 
   return (
@@ -151,11 +158,12 @@ function App() {
         </div>
       </div>
 
-      <div id="popup-report" className="popup-container" ref={reportPopupRef} style={{ display: 'none' }}>
+      <div id="popup-report" className="popup-container">
         <div className="popup">
           <div className="popup-header">
-            {/* Ensure this close button is calling the closePopup function */}
-            <span className="popup-close" onClick={closePopup}>&times;</span>
+            <span className="popup-close" onClick={closeAllPopups}>
+              &times;
+            </span>
             <h2>Report Issue</h2>
           </div>
           <form
@@ -193,15 +201,22 @@ function App() {
       <div id="buttons-container">
         <button className="button" onClick={openSearch}>
           <img
-            src="https://raw.githubusercontent.com/mike-cautela/MunchiMaps/main/Website/MunchiMaps%20Assets/MenuIcons/search-white.svg"
+            src="https://raw.githubusercontent.com/mike-cautela/MunchiMaps/main/Website/MunchiMaps%20Assets/MenuIcons/search-grey.svg"
             alt="Search"
             className="button-img"
           />
         </button>
         <button className="button" onClick={() => openPopup('Report')}>
           <img
-            src="https://raw.githubusercontent.com/mike-cautela/MunchiMaps/main/Website/MunchiMaps%20Assets/MenuIcons/alert-white.svg"
+            src="https://raw.githubusercontent.com/mike-cautela/MunchiMaps/main/Website/MunchiMaps%20Assets/MenuIcons/alert-triangle-grey.svg"
             alt="Report"
+            className="button-img"
+          />
+        </button>
+        <button className="button" id="Location" onClick={() => console.log('Update Location')}>
+          <img
+            src="https://raw.githubusercontent.com/mike-cautela/MunchiMaps/main/Website/MunchiMaps%20Assets/MenuIcons/crosshair-grey.svg"
+            alt="Location"
             className="button-img"
           />
         </button>
